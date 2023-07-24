@@ -1,0 +1,78 @@
+li {
+  border-style: solid;
+  border-color: gray;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5px gray;
+  transition-timing-function: ease;
+  color: white;
+  padding: 5px 5px 5px;
+}
+li:hover {
+  border-color: aqua;
+  box-shadow: 3px 3px 5px aqua;
+  animation-duration: 500ms;
+}
+:root{
+  background-color: #242424;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.delete{
+  border-style: solid;
+  border-color: white;
+  border-radius: 5px;
+  color: red;
+}
+.delete:hover{
+  color: white;
+  background-color: red;
+  border-color: red;
+}
+.submit{
+  border-style: solid;
+  border-radius: 5px;
+  border-color: white;
+  color: blue; 
+}
+.submit:hover{
+  border-color: blue ;
+  background-color: blue;
+  color: white;
+}
+.input{
+  border-radius: 5px;
+  border-color: white;
+  background-color: white;
+}
+.flex-column{
+  display: flex;
+  flex-direction: column;
+}
+.flex-row{
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+}
+ul{
+  width: 40%;
+  position: absolute;
+  margin-left: 25%;
+}
+textarea{
+  background-color: rgb(190, 190, 190);
+  border-radius: 5px;
+  border-style:solid;
+  border-color: white;
+}
+.centered-form{
+  margin-left: 40%;
+}
+.flex-oneThird{
+  flex-grow: 3;
+}
+.centered-element{
+  position: sticky;
+  margin-top: 10%;
+  margin-left: 5%;
+}
