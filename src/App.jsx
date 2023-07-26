@@ -25,7 +25,7 @@ function App() {
       <li className='flex-row'>
         <textarea className='flex-oneThird' value={task}readOnly/>
         <div className='flex-oneThird'>
-        <input type="checkbox" id={id} value="Done"/>
+        <input name="done" type="checkbox" id={id} />
         Done
         </div>
         <div id={id} className='flex-row flex-oneThird'>
@@ -70,6 +70,22 @@ function App() {
   }
 
   // eslint-disable-next-line no-unused-vars
+  /*function handleCheck(e){
+    e.preventDefault()
+    console.log(e.target.value)
+    tasks.map(task =>{
+    const splitedTask = task.split('/')
+    if( splitedTask[0] == e.target.done.id){
+      console.log(e.target.done.id)
+      return splitedTask[2] == 't' ? splitedTask[0] + '/' + splitedTask[1] + '/' + 'f' : splitedTask[0] + '/' + splitedTask[1] + '/' + 't'
+    }
+    return task
+   })
+   setTasks(tasks)
+   console.log(tasks)
+  }*/
+
+  // eslint-disable-next-line no-unused-vars
   function Form(){
     return(
       <form onSubmit={handleCreate} className='centered-form'>
@@ -87,6 +103,7 @@ function App() {
     setTasks(tasks => newTasks)
     localStorage ? localStorage.setItem("arr",newTasks.toString()) : localStorage.setItem("arr",localStorage.arr+","+newTasks.toString())
   }
+  
   return (
     <div className='centered-element'>
       <Form/>
