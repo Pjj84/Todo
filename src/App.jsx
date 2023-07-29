@@ -6,29 +6,29 @@ import './App.css'
 function App() {
 
   // eslint-disable-next-line no-unused-vars
-  const [tasks, setTasks] = useState(localStorage.arr ? localStorage.arr.split(",") : [])
+  const [tasks, setTasks] =  useState(localStorage.tasks ? JSON.parse(localStorage.tasks) : [])
+  //console.log("parse: ",JSON.parse(localStorage.tasks))
 
   function List(){
     return(
       <ul>
         {tasks.map(task => {
-          const id = task.split("/")[0]
-          return <ToDO key={id} id={id} task={task.split('/')[1]}/>
+          return <ToDO key={task.id} task={task}/>
         })}
       </ul>
     )
   }
 
-  function ToDO({id, task}){
+  function ToDO({task}){
     return(
-      <label htmlFor={id}>
+      <label htmlFor={task.id}>
       <li className='flex-row'>
-        <textarea className='flex-oneThird' value={task}readOnly/>
+        <textarea className='flex-oneThird' value={task.text}readOnly/>
         <div className='flex-oneThird'>
-        <input name="done" type="checkbox" id={id} />
-        Done
+          {task.isDone ? <input name="done" type="checkbox" onChange={handleCheck} id={task.id} checked/> : <input name="done" type="checkbox" onChange={handleCheck} id={task.id}/>}
+          Done
         </div>
-        <div id={id} className='flex-row flex-oneThird'>
+        <div id={task.id} className='flex-row flex-oneThird'>
         <form onSubmit={handleUpdate} className='flex-row'>
           <input type='text' name='updatedTask' className='input'/>
           <input type='submit' value='Update' className='submit'/>
@@ -46,14 +46,14 @@ function App() {
     e.preventDefault()
     setTasks(tasks => {
       const temp = tasks.map(task => {
-        const id = task.split("/")[0]
+        const id = task.id
         if(id == e.target.parentNode.id){
-          return id +"/" + e.target.updatedTask.value
+          return {...task, isDone: false, text: e.target.updatedTask.value}
         }else{
           return task
         }
       })
-      localStorage.arr = temp
+      localStorage.setItem("tasks",JSON.stringify(temp))
       return temp
     })
   }
@@ -62,28 +62,26 @@ function App() {
     e.preventDefault()
     setTasks(tasks =>{
           const temp =  tasks.filter(task =>{
-          return task.split("/")[0] != e.target.parentNode.id
+          return task.id != e.target.parentNode.id
         })
-        localStorage.arr =temp
+        localStorage.setItem("tasks",JSON.stringify(temp))
         return temp
     })
   }
 
   // eslint-disable-next-line no-unused-vars
-  /*function handleCheck(e){
+  function handleCheck(e){
     e.preventDefault()
-    console.log(e.target.value)
-    tasks.map(task =>{
-    const splitedTask = task.split('/')
-    if( splitedTask[0] == e.target.done.id){
-      console.log(e.target.done.id)
-      return splitedTask[2] == 't' ? splitedTask[0] + '/' + splitedTask[1] + '/' + 'f' : splitedTask[0] + '/' + splitedTask[1] + '/' + 't'
+    const newTasks =tasks.map(task =>{
+    if( task.id == e.target.id){
+      const isDone = task.isDone
+      return {...task, isDone: !isDone}
     }
     return task
    })
-   setTasks(tasks)
-   console.log(tasks)
-  }*/
+   setTasks(newTasks)
+   localStorage.setItem("tasks",JSON.stringify(newTasks))
+  }
 
   // eslint-disable-next-line no-unused-vars
   function Form(){
@@ -98,12 +96,15 @@ function App() {
   function handleCreate(e){
     e.preventDefault()
     const id = nanoid()   
-    const newTasks = [...tasks,id+"/"+e.target.task.value]
+    const newTasks = [...tasks,{id: id, text: e.target.task.value, isDone: false}]
+    // eslint-disable-next-line no-unused-vars
+    localStorage.setItem("tasks",JSON.stringify(newTasks))
     // eslint-disable-next-line no-unused-vars
     setTasks(tasks => newTasks)
-    localStorage ? localStorage.setItem("arr",newTasks.toString()) : localStorage.setItem("arr",localStorage.arr+","+newTasks.toString())
   }
-  
+  console.log("localStorage: ",localStorage)
+  //localStorage.setItem("tasks","")
+  //console.log(JSON.parse(localStorage.tasks))
   return (
     <div className='centered-element'>
       <Form/>
